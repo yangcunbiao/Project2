@@ -1,0 +1,68 @@
+﻿#include <stdio.h>
+
+char ch[102][102];
+int m, n;
+int dfs(int, int, char);
+int main()
+{
+	int count = 0;
+	char b;
+	do {
+		scanf("%d %d", &m, &n);
+		scanf("%c", &b);
+		for (int i = 0; i < m; i++)
+		{
+			for (int j = 0; j < n; j++)
+			{
+				scanf("%c", &ch[i][j]);
+			}
+			scanf("%c", &b);
+		}
+		for (int i = 0; i < m; i++)
+		{
+			for (int j = 0; j < n; j++)
+			{
+				if (ch[i][j] == '@') {
+					dfs(i, j, '@');
+					count++;
+				}
+				else if (ch[i][j] == '#') {
+					dfs(i, j, '#');
+					count++;
+				}
+				else if (ch[i][j] == '*') {
+					dfs(i, j, '*');
+					count++;
+				}
+			}
+		}
+		if (m != 0) {
+			printf("%d\n", count);
+		}
+	} while (m != 0);
+
+
+	return 0;
+}
+int dfs(int x, int y,char c)
+{
+	ch[x][y] = '0';
+	int count = 1;
+	for (int i = 0; i <= 1; i++)
+	{
+		for (int j = -1; j <= 1; j++) {
+			int dx = x, dy = y ;
+			if (i) {
+				dx += j;
+			}
+			else {
+				dy += j;
+			}
+			if (dx>=0&&dx<m&&dy>=0&&dy<n&&ch[dx][dy] == c) {
+				count = count + dfs(dx, dy, c);
+			}
+		}
+	}
+
+	return count;
+}
