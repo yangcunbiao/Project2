@@ -1,0 +1,77 @@
+#include<stdio.h>
+#include<string.h>
+
+int a(char []);
+void s(char[]);
+int main() {
+	char ch[100], sum[100];
+	int count = 0;
+
+	while ((scanf("%s", ch)) != EOF) {
+		count = 0;
+		strcpy(sum, ch);
+		while (a(sum) == 0)
+		{
+			s(sum);
+			count++;
+		}
+		printf("%d\n", count);
+		while (a(ch) == 0)
+		{
+			printf("%s--->", ch);
+			s(ch);
+		}
+		printf("%s\n", ch);
+	}
+
+	return 0;
+}
+int a(char ch[])
+{
+	int l = strlen(ch), flag = 1;
+	l--;
+	for (int i = 0; i < l; i++,l--)
+	{
+		if (ch[i] != ch[l]) {
+			flag = 0;
+			break;
+		}
+	}
+
+	return flag;
+}
+void s(char ch[])
+{
+	char ch1[100];
+	int l = strlen(ch);
+	int count = 0;
+	for (int i = 0; l-1 >= 0; i++,l--)
+	{
+		ch1[i] = ch[l-1];
+	}
+	l = strlen(ch);
+	for (int i = 0; i < l; i++) {
+		ch[i] = ch[i] + ch1[i] - '0';
+	}
+	count = strlen(ch);
+	count--;
+	while (count>=0)
+	{
+		if (ch[0] > '9')
+		{
+			int lon = strlen(ch) + 1;
+			for (int i = lon; i > 0; i--)
+			{
+				ch[i] = ch[i - 1];
+			}
+			ch[0] = '0';
+			count++;
+		}
+		if (ch[count] > '9')
+		{
+			ch[count] = ch[count] - 10;
+			ch[count - 1]++;
+		}
+		count--;
+	}
+}
