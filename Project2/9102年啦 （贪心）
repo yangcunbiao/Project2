@@ -1,0 +1,44 @@
+#include<stdio.h>
+#include<string.h>
+
+struct pair {
+	int s;
+	int t;
+}time[100];
+
+int main() {
+	struct pair b;
+	int n = -1, count = 0, t = 0;
+
+	while (n != 0) {
+		scanf("%d", &n);
+		count = 0;
+		t = 0;
+		for (int i = 0; i < n; i++)
+		{
+			scanf("%d %d", &time[i].s, &time[i].t);
+		}
+		for (int i = 0; i < n - 1; i++)
+		{
+			for (int j = 0; j < n - i - 1; j++) {
+				if (time[j].t > time[j + 1].t) {
+					b = time[j];
+					time[j] = time[j + 1];
+					time[j + 1] = b;
+				}
+			}
+		}
+		for (int i = 0; i < n; i++)
+		{
+			if (time[i].s >= t) {
+				t = time[i].t;
+				count++;
+			}
+		}
+		if (n != 0) {
+			printf("%d\n", count);
+		}
+	}
+
+	return 0;
+}
