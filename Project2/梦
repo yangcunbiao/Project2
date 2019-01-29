@@ -1,1 +1,106 @@
 
+#include<stdio.h>
+#include<string.h>
+
+struct fruit
+{
+	char name[100];
+	int num;
+}c;
+struct location {
+	char name[100];
+	struct fruit kinds[1000];
+	int cnt = 0;
+}b, d, t[105];
+
+int main() {
+	int N, M;
+	int cnt = 0;
+	scanf("%d", &N);
+	for (int i = 0; i < N; i++)
+	{
+		cnt = 0;
+		scanf("%d", &M);
+		for (int j = 0; j < M; j++)
+		{
+			scanf("%s %s %d", b.kinds[0].name, b.name, &b.kinds[0].num);
+			if (cnt == 0) {
+				strcpy(t[cnt].name, b.name);
+				t[cnt].kinds[t[cnt].cnt] = b.kinds[0];
+				t[cnt].cnt++;
+				cnt++;
+			}
+			else {
+				int flag = 0;
+				for (int l = 0; l < cnt; l++)
+				{
+					if (strcmp(b.name, t[l].name) == 0) {
+						for (int k = 0; k < t[l].cnt; k++)
+						{
+							if (strcmp(b.kinds[0].name, t[l].kinds[k].name) == 0) {
+								t[l].kinds[k].num += b.kinds[0].num;
+								flag = 1;
+								break;
+							}
+							else if (k == t[l].cnt - 1) {
+								t[l].kinds[t[l].cnt] = b.kinds[0];
+								t[l].cnt++;
+								flag = 1;
+								break;
+							}
+						}
+						if (flag) {
+							break;
+						}
+					}
+					else if (l == cnt - 1) {
+						strcpy(t[cnt].name, b.name);
+						t[cnt].kinds[t[cnt].cnt] = b.kinds[0];
+						t[cnt].cnt++;
+						cnt++;
+						break;
+					}
+				}
+			}
+
+		}
+		for (int j = 0; j < cnt - 1; j++)
+		{
+			for (int k = 0; k < cnt - j - 1; k++) {
+				if (strcmp(t[k].name, t[k + 1].name) > 0) {
+					b = t[k];
+					t[k] = t[k + 1];
+					t[k + 1] = b;
+				}
+			}
+		}
+		for (int j = 0; j < cnt; j++)
+		{
+			for (int k = 0; k < t[j].cnt - 1; k++) {
+				for (int l = 0; l < t[j].cnt - k - 1; l++)
+				{
+					if (strcmp(t[j].kinds[l].name, t[j].kinds[l + 1].name) > 0) {
+						c = t[j].kinds[l];
+						t[j].kinds[l] = t[j].kinds[l + 1];
+						t[j].kinds[l + 1] = c;
+					}
+				}
+			}
+		}
+		if (i != 0) {
+			printf("\n");
+		}
+		for (int j = 0; j < cnt; j++)
+		{
+			printf("%s\n", t[j].name);
+			for (int k = 0; k < t[j].cnt; k++) {
+				
+				printf("   |----%s(%d)\n", t[j].kinds[k].name, t[j].kinds[k].num);
+			}
+			t[j] = d;
+		}
+
+	}
+
+	return 0;
+}
