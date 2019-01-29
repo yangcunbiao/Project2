@@ -1,0 +1,55 @@
+#include<iostream>
+#include<vector>
+#include<deque>
+#include<queue>
+#include<stack>
+#include<list>
+#include<numeric>
+#include<string>
+#include<bitset>
+#include<functional>
+#include<algorithm>
+#include<set>
+#include<map>
+using namespace std;
+
+typedef map<string, int> pair1;
+typedef map<string, pair1 > MAP;
+
+int main()
+{
+
+	int n, m, i, sale;
+	string name, place;
+	MAP mmid;
+	pair1 pairs;
+	MAP::iterator it1;
+	pair1::iterator it2;
+	cin >> n;
+	int flag = 0;
+	while (n--)
+	{
+		if (flag)
+			cout << endl;
+		flag = 1;
+		cin >> m;
+		for (i = 0; i < m; i++)
+		{
+			cin >> name >> place >> sale;
+			mmid[place][name] += sale;
+		}
+		for (it1 = mmid.begin(); it1 != mmid.end(); it1++)
+		{
+			cout << (*it1).first << endl;
+			for (it2 = it1->second.begin(); it2 != it1->second.end(); it2++)
+			{
+				cout<<"   |----"<<(*it2).first<<"(" <<(*it2).second<<")"<<endl;
+			}
+
+		}
+
+		mmid.clear();
+	}
+
+	return 0;
+}
