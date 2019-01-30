@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <math.h>
+
+int main()
+{
+
+	int N, m[10000] = { 0 },max2;
+	double max1 = 0;
+
+	scanf("%d", &N);
+
+	for (int i = 0; i < N; i++)
+	{
+		scanf("%d", &m[i]);
+	}
+	for (int i = 0; i < N-1; i++)
+	{
+		for (int j = 0; j < N - i - 1; j++) {
+			if (m[j] < m[j + 1]) {
+				max2 = m[j];
+				m[j] = m[j + 1];
+				m[j + 1] = max2;
+			}
+		}
+	}
+	max1 = m[0];
+	for (int i = 1; i < N; i++) {
+		max1 = 2 * sqrt(max1*m[i]);
+	}
+	printf("%.3f", max1);
+
+	return 0;
+}
