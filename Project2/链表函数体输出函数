@@ -1,0 +1,8 @@
+void Print(List L)
+{
+	while (L->Next!=NULL)
+	{
+		L = L->Next;
+		printf("%d ", L->Data);
+	}
+}
