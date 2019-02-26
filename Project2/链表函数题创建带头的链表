@@ -1,0 +1,35 @@
+List Read()
+{
+	List p = NULL, head = NULL, tail = NULL, L;
+	L = (List)malloc(sizeof(struct Node));
+
+	p = (List)malloc(sizeof(struct Node));
+
+	scanf("%d", &p->Data);
+
+	if (p->Data == -1) {
+		p = NULL;
+	}
+
+
+	while (p != NULL) {
+		if (head == NULL) {
+			head = p;
+		}
+		tail = p;
+
+		p = (List)malloc(sizeof(struct Node));
+		p->Next = NULL;
+
+		scanf("%d", &p->Data);
+
+		if (p->Data == -1) {
+			p = NULL;
+
+			break;
+		}
+		tail->Next = p;
+	}
+	L->Next = head;
+	return L;
+}
