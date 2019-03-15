@@ -1,0 +1,21 @@
+List ReadInput()
+{
+	List L;
+	L = (List)malloc(sizeof(LNode));
+	L->Last = -1;
+	int n;
+	scanf("%d", &n);
+	for (int i = 0; i < n; i++)
+	{
+		scanf("%d", &L->Data[i]);
+		L->Last++;
+	}
+	return L;
+}
+void PrintList(List L)
+{
+	for (int i = 0; i <= L->Last; i++)
+	{
+		printf("%d ", L->Data[i]);
+	}
+}
