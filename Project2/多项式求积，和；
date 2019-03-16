@@ -1,0 +1,179 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <algorithm>
+#include <sstream>
+#include <fstream>
+#include <string>
+#include <queue>
+#include <stack>
+#include <vector>
+#include <map>
+#include <set>
+
+#define LL long long
+#define debug cout<<"Error!"
+#define INF 0x3f3f3f3f
+#define PI atan(1.0)*4
+
+using namespace std;
+struct L
+{
+	int coef;
+	int expon;
+	struct L *next;
+};
+typedef struct L L;
+L* add(L *p1, L *p2);
+L* mult(L *p1, L*p2);
+int main()
+{
+	L *p1, *p2, *tail, *nn, *sum, *sum1, *fact;
+	fact = (L*)malloc(sizeof(L));
+	fact->coef = 0;
+	fact->expon = 0;
+	fact->next = NULL;
+	fact = NULL;
+	p1 = (L*)malloc(sizeof(L));
+	p1->next = NULL;
+	p2 = (L*)malloc(sizeof(L));
+	p2->next = NULL;
+	int n;
+	cin >> n;
+	tail = p1;
+	for (int i = 0; i < n; i++)
+	{
+		nn= (L*)malloc(sizeof(L));
+		nn->next = NULL;
+		cin >> nn->coef >> nn->expon;
+		tail->next = nn;
+		tail = tail->next;
+	}
+	cin >> n;
+	tail = p2;
+	for (int i = 0; i < n; i++)
+	{
+		nn = (L*)malloc(sizeof(L));
+		nn->next = NULL;
+		cin >> nn->coef >> nn->expon;
+		tail->next = nn;
+		tail = tail->next;
+	}
+	sum = add(p1->next, p2->next);
+	p1 = p1->next;
+	p2 = p2->next;
+	while (p1!=NULL)
+	{
+		if (p1->coef) {
+			sum1 = mult(p1, p2);
+			fact = add(sum1, fact);
+		}
+		p1 = p1->next;
+	}
+	int flag = 0;
+	while (fact!=NULL)
+	{
+		if (flag)
+			cout << ' ';
+		flag = 1;
+		//if (fact->coef != 0)
+			cout << fact->coef << ' ' << fact->expon;
+		fact = fact->next;
+	}
+	if (flag == 0)cout << "0 0";
+	cout << endl;
+	flag = 0;
+	while (sum!=NULL)
+	{
+		if (flag)
+			cout << ' ';
+		flag = 1;
+		cout << sum->coef << ' ' << sum->expon;
+		sum = sum->next;
+	}
+	if (flag == 0)cout << "0 0";
+
+	return 0;
+}
+L* add(L *p1, L *p2)
+{
+	L *p3, *nn, *l1 = p1, *l2 = p2, *tail;
+	p3 = (L*)malloc(sizeof(L));
+	p3->next = NULL;
+	tail = p3;
+	while (l1!=NULL&&l2!=NULL)
+	{
+		if (l1->expon == l2->expon) {
+			if (l1->coef + l2->coef != 0) {
+				nn = (L*)malloc(sizeof(L));
+				nn->next = NULL;
+				nn->coef = l1->coef + l2->coef;
+				nn->expon = l1->expon;
+				tail->next = nn;
+				tail = tail->next;
+			}
+			l1 = l1->next;
+			l2 = l2->next;
+		}
+		else if(l1->expon > l2->expon){
+			nn = (L*)malloc(sizeof(L));
+			nn->next = NULL;
+			nn->coef = l1->coef;
+			nn->expon = l1->expon;
+			tail->next = nn;
+			tail = tail->next;
+			l1 = l1->next;
+		}
+		else {
+			nn = (L*)malloc(sizeof(L));
+			nn->next = NULL;
+			nn->coef = l2->coef;
+			nn->expon = l2->expon;
+			tail->next = nn;
+			tail = tail->next;
+			l2 = l2->next;
+		}
+	}
+	if (l1!=NULL) {
+		while (l1!=NULL)
+		{
+			nn = (L*)malloc(sizeof(L));
+			nn->next = NULL;
+			nn->coef = l1->coef;
+			nn->expon = l1->expon;
+			tail->next = nn;
+			tail = tail->next;
+			l1 = l1->next;
+		}
+	}
+	if (l2 != NULL) {
+		nn = (L*)malloc(sizeof(L));
+		nn->next = NULL;
+		nn->coef = l2->coef;
+		nn->expon = l2->expon;
+		tail->next = nn;
+		tail = tail->next;
+		l2 = l2->next;
+	}
+	return p3->next;
+}
+L* mult(L *p1, L*p2)
+{
+	L *sum, *tail, *nn, *l2 = p2;
+	sum = (L*)malloc(sizeof(L));
+	sum->next = NULL;
+	tail = sum;
+	while (l2!=NULL)
+	{
+		nn = (L*)malloc(sizeof(L));
+		nn->next = NULL;
+		tail->next = nn;
+		tail = tail->next;
+		nn->coef = p1->coef*l2->coef;
+		nn->expon = p1->expon + l2->expon;
+		l2 = l2->next;
+	}
+	return sum->next;
+}
