@@ -1,0 +1,113 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <algorithm>
+#include <sstream>
+#include <fstream>
+#include <string>
+#include <queue>
+#include <stack>
+#include <vector>
+#include <map>
+#include <set>
+
+#define LL long long
+#define debug cout<<"Error!"
+#define INF 0x3f3f3f3f
+
+using namespace std;
+struct Node
+{
+	int Data;
+	struct Node *Next;
+};
+typedef Node* List;
+List Read();
+List InterSect(List ha,List hb);
+void Print(List L);
+int main()
+{
+	List L1, L2, L3;
+	L1 = Read();
+	L2 = Read();
+	L3 = InterSect(L1, L2);
+	Print(L3);
+
+	return 0;
+}
+List Read()
+{
+	List p = NULL, head = NULL, tail = NULL, L;
+	L = (List)malloc(sizeof(struct Node));
+
+	p = (List)malloc(sizeof(struct Node));
+
+	scanf("%d", &p->Data);
+
+	if (p->Data == -1) {
+		p = NULL;
+	}
+
+
+	while (p != NULL) {
+		if (head == NULL) {
+			head = p;
+		}
+		tail = p;
+
+		p = (List)malloc(sizeof(struct Node));
+		p->Next = NULL;
+
+		scanf("%d", &p->Data);
+
+		if (p->Data == -1) {
+			p = NULL;
+
+			break;
+		}
+		tail->Next = p;
+	}
+	L->Next = head;
+	return L;
+}
+List InterSect(List ha, List hb)
+{
+	List hc;
+	hc = (List)malloc(sizeof(struct Node));
+	hc->Next = NULL;
+	List pa = ha->Next, pb = hb->Next, pc = hc, nn;
+	while (pa != NULL && pb != NULL) {
+		if (pa->Data < pb->Data) {
+			pa = pa->Next;
+		}
+		else if (pa->Data > pb->Data) {
+			pb = pb->Next;
+		}
+		else {
+			nn = (List)malloc(sizeof(struct Node));
+			nn->Data = pb->Data;
+			nn->Next = NULL;
+			pb = pb->Next;
+			pa = pa->Next;
+			pc->Next = nn;
+			pc = pc->Next;
+		}
+	}
+	return hc;
+}
+void Print(List L)
+{
+	if (L->Next == NULL) {
+		cout << "NULL";
+	}
+	int flag = 0;
+	while (L->Next != NULL)
+	{
+		if (flag)cout << ' ';
+		flag = 1;
+		L = L->Next;
+		printf("%d", L->Data);
+	}
+}
