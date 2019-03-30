@@ -1,0 +1,106 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <algorithm>
+#include <sstream>
+#include <fstream>
+#include <string>
+#include <queue>
+#include <stack>
+#include <vector>
+#include <map>
+#include <set>
+
+#define LL long long
+#define debug cout<<"Error!"
+#define INF 0x3f3f3f3f
+#define PI atan(1.0)*4
+
+using namespace std;
+typedef pair<int, int> p;
+struct {
+	p ind;
+	int pre;
+}l[100000];
+int ch[1000][1000];
+int main()
+{
+	int dx[4] = { -1,0,1,0 }, dy[4] = { 0,1,0,-1 }, m, n, flag = 0, count = -1, count1 = 1, num, cc = 0;
+	stack<p>b;
+	queue<p>qq;
+	p pp, p1;
+	do {
+		count1 = 1;
+		count = -1;
+		flag = 0;
+		cin >> m >> n;
+		if (m == -1)break;
+		for (int i = 0; i < m; i++)
+		{
+			for (int j = 0; j < n; j++) {
+				cin >> ch[i][j];
+			}
+		}
+		qq.push(p(0, 0));
+		ch[0][0] = 2;
+		l[0].ind.first = 0, l[0].ind.second = 0;
+		l[0].pre = -1;
+		while (qq.size())
+		{
+			pp = qq.front();
+			qq.pop();
+			count++;
+			if (pp.first == m - 1 && pp.second == n - 1) {
+				flag = 1;
+				break;
+			}
+			for (int i = 0; i < 4; i++)
+			{
+
+				p1.first = pp.first + dx[i];
+				p1.second = pp.second + dy[i];
+				if (p1.first >= 0 && p1.first < m&&p1.second >= 0 && p1.second < n&&ch[p1.first][p1.second] != 1 && ch[p1.first][p1.second] != 2) {
+					l[count1].ind = p1;
+					l[count1].pre = count;
+					ch[p1.first][p1.second] = 2;
+					qq.push(p1);
+					count1++;
+				}
+			}
+		}
+		if (cc == 1) {
+			cout << endl;
+		}
+		cc = 1;
+		if (flag == 0) {
+			cout << "NO FOUND" ;
+			
+		}
+		else {
+			num = count;
+			while (num != -1)
+			{
+				p1 = l[num].ind;
+				b.push(p1);
+				num = l[num].pre;
+			}
+			while (b.size())
+			{
+				p1 = b.top();
+				b.pop();
+				if (flag == 0) {
+					cout << endl;
+				}
+				cout << p1.first + 1 << ',' << p1.second + 1;
+				flag = 0;
+			}
+		printf("\n");
+		}
+	} while (m != -1);
+	printf("\n");
+
+
+	return 0;
+}
