@@ -1,0 +1,57 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <algorithm>
+#include <sstream>
+#include <fstream>
+#include <string>
+#include <queue>
+#include <stack>
+#include <vector>
+#include <map>
+#include <set>
+
+#define LL long long
+#define debug cout<<"Error!"
+#define INF 0x3f3f3f3f
+#define PI atan(1.0)*4
+
+using namespace std;
+
+int main()
+{
+	int n, num, flag = 0;
+	queue<int> a, b;
+	cin >> n;
+	a.push(1);
+	for (int i = 2; i <= n; i++)
+	{
+		a.push(1);
+		for (int j = n-i+1; j > 0; j--)
+		{
+			printf(" ");
+		}
+		for (int j = 0; j < i-2; j++)
+		{
+			num = a.front();
+			a.pop();
+			printf("%4d", num);
+			num += a.front();
+			a.push(num);
+		}
+		printf("%4d\n", a.front());
+		a.pop();
+		a.push(1);
+
+	}
+	while (a.size())
+	{
+		printf("%4d", a.front());
+		a.pop();
+	}
+
+
+	return 0;
+}
