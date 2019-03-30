@@ -1,0 +1,93 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <algorithm>
+#include <sstream>
+#include <fstream>
+#include <string>
+#include <queue>
+#include <stack>
+#include <vector>
+#include <map>
+#include <set>
+
+#define LL long long
+#define debug cout<<"Error!"
+#define INF 0x3f3f3f3f
+#define PI atan(1.0)*4
+
+using namespace std;
+
+int main()
+{
+	stack<int>a, b, c;
+	a.push(99999), b.push(99999), c.push(99999);
+	int i, n;
+	char ch[4] = { 'd','a','b','c' };
+	cin >> n;
+	if (n % 2) {
+		ch[2] = 'c';
+		ch[3] = 'b';
+	}
+	for ( i = n; i > 0; i--)
+	{
+		a.push(i);
+	}
+	for ( i = 1; ; i++)
+	{
+		if (i % 3 == 1) {
+			printf("%c -> %c\n", ch[1], ch[2]);
+			b.push(a.top());
+			a.pop();
+			if (b.size() == n + 1 || c.size() == n + 1)break;
+			if (a.top() > c.top()) {
+				printf("%c -> %c\n", ch[3], ch[1]);
+				a.push(c.top());
+				c.pop();
+			}
+			else {
+				printf("%c -> %c\n", ch[1], ch[3]);
+				c.push(a.top());
+				a.pop();
+			}
+		}
+		else if (i % 3 == 2) {
+			printf("%c -> %c\n", ch[2], ch[3]);
+			c.push(b.top());
+			b.pop();
+			if (b.size() == n + 1 || c.size() == n + 1)break;
+			if (a.top() > b.top()) {
+				printf("%c -> %c\n", ch[2], ch[1]);
+				a.push(b.top());
+				b.pop();
+			}
+			else {
+				printf("%c -> %c\n", ch[1], ch[2]);
+				b.push(a.top());
+				a.pop();
+			}
+		}
+		else {
+			printf("%c -> %c\n", ch[3], ch[1]);
+			a.push(c.top());
+			c.pop();
+			if (b.size() == n + 1 || c.size() == n + 1)break;
+			if (c.top() > b.top()) {
+				printf("%c -> %c\n", ch[2], ch[3]);
+				c.push(b.top());
+				b.pop();
+			}
+			else {
+				printf("%c -> %c\n", ch[3], ch[2]);
+				b.push(c.top());
+				c.pop();
+			}
+			i = 0;
+		}
+		//if (b.size() == n + 1 || c.size() == n + 1)break;
+	}
+
+	return 0;
+}
