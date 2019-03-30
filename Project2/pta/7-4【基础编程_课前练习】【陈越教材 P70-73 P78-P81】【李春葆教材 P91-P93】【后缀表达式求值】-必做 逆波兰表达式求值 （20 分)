@@ -1,0 +1,59 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <algorithm>
+#include <sstream>
+#include <fstream>
+#include <string>
+#include <queue>
+#include <stack>
+#include <vector>
+#include <map>
+#include <set>
+
+#define LL long long
+#define debug cout<<"Error!"
+#define INF 0x3f3f3f3f
+#define PI atan(1.0)*4
+
+using namespace std;
+int main()
+{
+	int i = 0, flag = 0, num1, num2;
+	char a[1000], ch, ct;
+	stack<int>b;
+	while (~scanf("%s", a))
+	{
+		if (a[0] == '+') {
+			num2 = b.top();
+			b.pop();
+			num1 = b.top();
+			b.pop();
+			b.push(num1+num2);
+		}
+		else if (a[0] == '-') {
+			num2 = b.top();
+			b.pop();
+			num1 = b.top();
+			b.pop();
+			b.push(num1 - num2);
+		}
+		else if (a[0] == '*') {
+			num2 = b.top();
+			b.pop();
+			num1 = b.top();
+			b.pop();
+			b.push(num1 * num2);
+		}
+		else {
+			num1 = atoi(a);
+			b.push(num1);
+		}
+	}
+	num1 = b.top();
+	cout << num1;
+
+	return 0;
+}
