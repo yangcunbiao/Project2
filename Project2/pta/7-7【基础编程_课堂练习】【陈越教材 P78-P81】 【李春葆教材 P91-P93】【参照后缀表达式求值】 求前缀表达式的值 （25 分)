@@ -1,0 +1,120 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <algorithm>
+#include <sstream>
+#include <fstream>
+#include <string>
+#include <queue>
+#include <stack>
+#include <vector>
+#include <map>
+#include <set>
+
+#define LL long long
+#define debug cout<<"Error!"
+#define INF 0x3f3f3f3f
+#define PI atan(1.0)*4
+
+using namespace std;
+void exchange(char[]);
+int main()
+{
+	char a[1000], b[1000], c[100];
+	int i = 0, j, flag = 0, h = 1;
+	double num, num1;
+	scanf("%[^\n]s", a);
+	j = strlen(a);
+	b[j] = '\0';
+	j--;
+	stack<double>s;
+	while (a[i]!='\0')
+	{
+		b[j] = a[i];
+		i++; j--;
+	}
+	j = 0;
+	while (b[j]!='\0')
+	{
+		i = 0;
+		h = 1;
+		if (b[j] != ' ') {
+			while (b[j]!=' ')
+			{
+				a[i] = b[j];
+				i++, j++;
+				if (b[j] == '\0')break;
+			}
+			a[i] = '\0';
+		}
+		if (a[0] >= '0'&&a[0] <= '9') {
+			/*if (a[strlen(a) - 1] == '+') {
+				a[strlen(a) - 1] = '\0';
+			}
+			else if(a[strlen(a) - 1] == '-'){
+				h = -1;
+			}*/
+			exchange(a);
+			num = h*atof(a);
+			s.push(num);
+		}
+		else if(a[0]=='+')
+		{
+			num = s.top();
+			s.pop();
+			num1 = s.top();
+			s.pop();
+			s.push(num1 + num);
+		}
+		else if (a[0] == '-') {
+			num = s.top();
+			s.pop();
+			num1 = s.top();
+			s.pop();
+			s.push(num - num1);
+		}
+		else if (a[0] == '*') {
+			num = s.top();
+			s.pop();
+			num1 = s.top();
+			s.pop();
+			s.push(num1 * num);
+		}
+		else {
+			num = s.top();
+			s.pop();
+			num1 = s.top();
+			s.pop();
+			if (num1 == 0) {
+				flag = 1;
+				break;
+			}
+			s.push(num *1.0 / num1);
+		}
+		if (b[j] == '\0')break;
+		j++;
+	}
+	if (flag) {
+		cout << "ERROR";
+	}
+	else {
+		printf("%.1f", s.top());
+	}
+
+	return 0;
+}
+void exchange(char a[])
+{
+	int i = 0, j = strlen(a) - 1;
+	char t;
+	while (i<j)
+	{
+		t = a[i];
+		a[i] = a[j];
+		a[j] = t;
+		i++;
+		j--;
+	}
+}
