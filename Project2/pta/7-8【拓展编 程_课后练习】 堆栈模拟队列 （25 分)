@@ -1,0 +1,85 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <algorithm>
+#include <sstream>
+#include <fstream>
+#include <string>
+#include <queue>
+#include <stack>
+#include <vector>
+#include <map>
+#include <set>
+
+#define LL long long
+#define debug cout<<"Error!"
+#define INF 0x3f3f3f3f
+#define PI atan(1.0)*4
+
+using namespace std;
+
+int main()
+{
+	stack<int>s1, s2;
+	int n1, n2, t;
+	char c;
+	cin >> n1 >> n2;
+	if (n1 > n2) {
+		t = n2;
+		n2 = n1;
+		n1 = t;
+	}
+	while (true)
+	{
+		cin >> c;
+		if (c == 'T') {
+			break;
+		}
+		else if (c == 'A') {
+			cin >> t;
+			if (s1.size() == n1 && s2.size() != 0) {
+				cout << "ERROR:Full"<<endl;
+			}
+			else if(s1.size() == n1 && s2.size() == 0){
+				int l = s1.size();
+				while (l)
+				{
+					s2.push(s1.top());
+					s1.pop();
+					l--;
+				}
+				s1.push(t);
+			}
+			else {
+				s1.push(t);
+			}
+		}
+		else
+		{
+			if (s1.size() == 0 && s2.size() == 0) {
+				cout << "ERROR:Empty" << endl;
+			}
+			else if(s2.size()!=0)
+			{
+				cout << s2.top() << endl;
+				s2.pop();
+			}
+			else {
+				int l = s1.size();
+				while (l)
+				{
+					s2.push(s1.top());
+					s1.pop();
+					l--;
+				}
+				cout << s2.top()<<endl;
+				s2.pop();
+			}
+		}
+	}
+
+
+	return 0;
+}
