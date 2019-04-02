@@ -1,0 +1,76 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <algorithm>
+#include <sstream>
+#include <fstream>
+#include <string>
+#include <queue>
+#include <stack>
+#include <vector>
+#include <map>
+#include <set>
+
+#define LL long long
+#define debug cout<<"Error!"
+#define INF 0x3f3f3f3f
+#define PI atan(1.0)*4
+
+using namespace std;
+typedef pair<int, int> p;
+int ch[1000][1000], aa[1000][1000] = { 0 };
+int main()
+{
+	int dx[4] = { -1,0,1,0 }, dy[4] = { 0,1,0,-1 }, m, n, flag = 0, count = -1, count1 = 1, num, cc = 0;
+	stack<p>b;
+	queue<p>qq;
+	p pp, p1;
+	count1 = 1;
+	count = -1;
+	flag = 0;
+	cin >> m ;
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < m; j++) {
+			cin >> ch[i][j];
+		}
+	}
+	qq.push(p(1, 1));
+	ch[1][1] = 2;
+	aa[1][1] = 0;
+	while (qq.size())
+	{
+		pp = qq.front();
+		qq.pop();
+		count++;
+		if (pp.first == m - 2 && pp.second == m - 2) {
+			flag = 1;
+			break;
+		}
+		for (int i = 0; i < 4; i++)
+		{
+
+			p1.first = pp.first + dx[i];
+			p1.second = pp.second + dy[i];
+			if (p1.first >= 0 && p1.first < m&&p1.second >= 0 && p1.second < m&&ch[p1.first][p1.second] != 1 && ch[p1.first][p1.second] != 2) {
+				ch[p1.first][p1.second] = 2;
+				qq.push(p1);
+				aa[p1.first][p1.second] = aa[pp.first][pp.second] + 1;
+			}
+		}
+	}
+
+	if (flag == 0) {
+		cout << "No solution";
+
+	}
+	else {
+		cout << aa[pp.first][pp.second] ;
+	}
+	printf("\n");
+
+
+	return 0;
+}
