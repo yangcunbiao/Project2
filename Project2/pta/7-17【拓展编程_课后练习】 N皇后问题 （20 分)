@@ -1,0 +1,71 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <algorithm>
+#include <sstream>
+#include <fstream>
+#include <string>
+#include <queue>
+#include <stack>
+#include <vector>
+#include <map>
+#include <set>
+
+#define LL long long
+#define debug cout<<"Error!"
+#define INF 0x3f3f3f3f
+#define PI atan(1.0)*4
+
+using namespace std;
+int c = 1, n;
+bool a[11] = { false,false, false, false, false, false, false, false, false, false, false, };
+void dfs(int b[], int num);
+bool judge(int b[],int n);
+int main()
+{
+	int num,b[11] = { 0 };
+	cin >> n;
+	dfs(b, 0);
+
+	return 0;
+}
+void dfs(int b[], int num)
+{
+	if (num == n) {
+		cout << c << "; ";
+		c++;
+		for (int i = 1; i <= n; i++)
+		{
+			printf("(%d,%d) ", i, b[i]);
+		}
+		cout << endl;
+		return;
+	}
+	for (int i = 1; i <= n; i++)
+	{
+		if (a[i])continue;
+		b[num + 1] = i;
+		a[i] = true;
+		if (judge(b,num+1)) {
+			dfs(b, num + 1);
+		}
+		a[i] = false;
+	}
+
+}
+bool judge(int b[],int n)
+{
+	for (int i = 1; i <= n; i++)
+	{
+		for (int j = i + 1; j <= n; j++) {
+			if (abs(b[j] - b[i]) == j - i) {
+				return false;
+			}
+		}
+	}
+
+
+	return true;
+}
