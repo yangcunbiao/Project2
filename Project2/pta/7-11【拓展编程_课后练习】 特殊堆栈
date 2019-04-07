@@ -1,0 +1,67 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <algorithm>
+#include <sstream>
+#include <fstream>
+#include <string>
+#include <queue>
+#include <stack>
+#include <vector>
+#include <map>
+#include <set>
+
+#define LL long long
+#define debug cout<<"Error!"
+#define INF 0x3f3f3f3f
+#define PI atan(1.0)*4
+
+using namespace std;
+vector<int>value;
+vector<int>::iterator it;
+
+int main()
+{
+	int n, num;
+	char a[100];
+	stack<int>s;
+	cin >> n;
+	for (int i = 0; i < n; i++) {
+		scanf("%s", a);
+		if (a[1] == 'u') {
+			cin >> num;
+			s.push(num);
+			it = lower_bound(value.begin(), value.end(), num);
+			value.insert(it, num);
+		}
+		else if (a[1] == 'o') {
+			if (s.size() == 0) {
+				cout << "Invalid" << endl;
+			}
+			else {
+				cout << s.top() << endl;
+				it = lower_bound(value.begin(), value.end(), s.top());
+				value.erase(it);
+				s.pop();
+			}
+		}
+		else {
+			if (s.size() == 0) {
+				cout << "Invalid" << endl;
+			}
+			else {
+				num = value.size();
+				if (num % 2) {
+					cout << value[num/2] << endl;
+				}
+				else {
+					cout << value[num/2-1] << endl;
+				}
+			}
+		}
+	}
+
+	return 0;
+}
