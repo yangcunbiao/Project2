@@ -1,0 +1,80 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <algorithm>
+#include <sstream>
+#include <fstream>
+#include <string>
+#include <queue>
+#include <stack>
+#include <vector>
+#include <map>
+#include <set>
+
+#define LL long long
+#define debug cout<<"Error!"
+#define INF 0x3f3f3f3f
+#define PI atan(1.0)*4
+
+using namespace std;
+typedef struct node
+{
+	int data;
+	struct node *l;
+	struct node* r;
+
+}b,*bi;
+int h[100], mid[100];
+bi buildtree(int hi, int mi, int len);
+void preorder(bi tree);
+int main()
+{
+	int n;
+	bi tree;
+	tree = (bi)malloc(sizeof(b));
+	cin >> n;
+	for (int i = 0; i < n; i++)
+	{
+		cin >> h[i];
+	}
+	for (int i = 0; i < n; i++)
+	{
+		cin >> mid[i];
+	}
+	tree = buildtree(0, 0, n);
+	cout << "Preorder:";
+	preorder(tree);
+
+	return 0;
+}
+bi buildtree(int hi, int mi, int len)
+{
+	if (len <= 0)return NULL;
+	int i, index;
+	bi tree;
+	tree = (bi)malloc(sizeof(b));
+	tree->r = NULL;
+	tree->l = NULL;
+	i = tree->data = h[hi + len - 1];
+	for (int j = mi,k=0; k < len; k++,j++)
+	{
+		if (i == mid[j]) {
+			index = j;
+			break;
+		}
+	}
+	tree->l = buildtree(hi, mi, index-mi);
+	tree->r = buildtree(hi+(index-mi),index+1, len -(index-mi)-1);
+
+	return tree;
+}
+
+void preorder(bi tree)
+{
+	if (tree == NULL)return;
+	cout <<' '<<tree->data;
+	if (tree->l)preorder(tree->l);
+	if (tree->r)preorder(tree->r);
+}
