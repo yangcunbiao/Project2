@@ -1,0 +1,103 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <algorithm>
+#include <sstream>
+#include <fstream>
+#include <string>
+#include <queue>
+#include <stack>
+#include <vector>
+#include <map>
+#include <set>
+
+#define LL long long
+#define debug cout<<"Error!"
+#define INF 0x3f3f3f3f
+#define PI atan(1.0)*4
+
+using namespace std;
+typedef struct node
+{
+	int data;
+	struct node* l;
+	struct node* r;
+
+}b, * bi;
+int h[100] = { 0 };
+pair<int, int>aa[100];
+bi buildtree(bi &tree,int i);
+void levelorder(bi tree);
+int main()
+{
+	int n, k;
+	char a, b;
+	bi tree;
+	tree = (bi)malloc(sizeof(b));
+	tree->l = tree->r = NULL;
+	cin >> n;
+	for (int i = 0; i < n; i++)
+	{
+		cin >> a >> b;
+		if (a != '-') {
+			aa[i].first = a - '0';
+			h[a - '0']++;
+		}
+		else {
+			aa[i].first = -1;
+		}
+		if (b != '-') {
+			aa[i].second = b - '0';
+			h[b - '0']++;
+		}
+		else {
+			aa[i].second = -1;
+		}
+	}
+	for ( k = 0; k < n; k++)
+	{
+		if (h[k] == 0) {
+			break;
+		}
+	}
+	buildtree(tree, k);
+	levelorder(tree);
+
+
+	return 0;
+}
+bi buildtree(bi &tree,int i)
+{
+	if (h[i] != 0) {
+		tree = (bi)malloc(sizeof(b));
+		tree->l = tree->r = NULL;
+	}
+	tree->data = i;
+	if (aa[i].first != -1)buildtree(tree->l, aa[i].first);
+	if (aa[i].second != -1)buildtree(tree->r, aa[i].second);
+
+
+	return tree;
+}
+void levelorder(bi tree)
+{
+	if (tree == NULL)return;
+	int flag = 0;
+	bi a;
+	queue<bi> q;
+	q.push(tree);
+	while (q.size())
+	{
+		a = q.front();
+		q.pop();
+		if (a->l == NULL && a->r == NULL) {
+			if (flag)cout << ' ';
+			flag = 1;
+			cout << a->data;
+		}
+		if (a->l)q.push(a->l);
+		if (a->r)q.push(a->r);
+	}
+}
