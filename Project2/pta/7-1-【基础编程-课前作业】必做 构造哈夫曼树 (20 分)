@@ -1,0 +1,95 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <algorithm>
+#include <sstream>
+#include <fstream>
+#include <string>
+#include <queue>
+#include <stack>
+#include <vector>
+#include <map>
+#include <set>
+
+#define LL long long
+#define debug cout<<"Error!"
+#define INF 0x3f3f3f3f
+#define PI atan(1.0)*4
+
+using namespace std;
+int cnt = 0;
+struct hnode {
+	struct hnode *l;
+	struct hnode *r;
+	int weight;
+	int flag;
+	bool operator <(const struct hnode& a)const
+	{
+		return a.weight < weight;
+	}
+};
+int total(struct hnode *tree,int a);
+int main()
+{
+	priority_queue<struct hnode >pq;
+	struct hnode* aa, * a1, * a2, a3;
+	int n;
+	char c[1000];
+	cin >> n;
+	for (int i = 0; i < n; i++)
+	{
+		aa = (struct hnode*)malloc(sizeof(struct hnode));
+		scanf("%s %d", c, &aa->weight);
+		aa->r = aa->l = NULL;
+		aa->flag = 1;
+		pq.push(*aa);
+	}
+	while (pq.size()>1)
+	{
+		aa = (struct hnode*)malloc(sizeof(struct hnode));
+		a1 = (struct hnode*)malloc(sizeof(struct hnode));
+		a2 = (struct hnode*)malloc(sizeof(struct hnode));
+		a3 = pq.top();
+		a1->weight = a3.weight;
+		a1->l = a3.l;
+		a1->r = a3.r;
+		a1->flag = a3.flag;
+		pq.pop();
+		a3 = pq.top();
+		a2->weight = a3.weight;
+		a2->l = a3.l;
+		a2->r = a3.r;
+		a2->flag = a3.flag;
+		pq.pop();
+		aa->weight = a1->weight + a2->weight;
+		aa->r = a2; aa->l = a1;
+		aa->flag = 0;
+		pq.push(*aa);
+	}
+	a3 = pq.top();
+	aa = &a3;
+	int dd = total(aa, 0);
+	printf("%.5f", dd * 1.0 / cnt);
+
+
+	return 0;
+}
+
+int total(hnode* tree,int a)
+{
+	int count = 0;
+	if (tree->flag) {
+		count = a * tree->weight;
+		cnt = cnt + tree->weight;
+	}
+	if (tree->l) {
+		count = count + total(tree->l, a + 1);
+	}
+	if (tree->r) {
+		count = count + total(tree->r, a + 1);
+	}
+
+	return count;
+}
