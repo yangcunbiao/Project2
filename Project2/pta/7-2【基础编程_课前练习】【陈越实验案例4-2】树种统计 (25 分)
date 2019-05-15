@@ -1,0 +1,100 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <cmath>
+#include <algorithm>
+#include <sstream>
+#include <fstream>
+#include <string>
+#include <queue>
+#include <stack>
+#include <vector>
+#include <map>
+#include <set>
+
+#define LL long long
+#define debug cout<<"Error!"
+#define INF 0x3f3f3f3f
+#define PI atan(1.0)*4
+
+using namespace std;
+int n;
+struct node {
+	char name[50];
+	int num;
+	struct node* left, * right;
+};
+typedef struct node* tree;
+typedef struct node tt;
+tree creattree();
+void print(tree t);
+int main()
+{
+	tree t;
+	t = creattree();
+	print(t);
+
+	return 0;
+}
+
+tree creattree()
+{
+	tree t, nn, leaf;
+	char d;
+	t = (tree)malloc(sizeof(tt));
+	cin >> n;
+	scanf("%c", &d);
+	scanf("%[^\n]s", t->name);
+	t->num = 1;
+	t->left = t->right = NULL;
+	for (int i = 0; i < n-1; i++)
+	{
+		nn = (tree)malloc(sizeof(tt));
+		scanf("%c", &d);
+		scanf("%[^\n]s", nn->name);
+		nn->num = 1;
+		nn->left = nn->right = NULL;
+		leaf = t;
+		while (leaf) {
+			if (strcmp(nn->name,leaf->name)==0) {
+				break;
+			}
+			else if (strcmp(nn->name,leaf->name)>0) {
+				if (leaf->right) {
+					leaf = leaf->right;
+				}
+				else {
+					break;
+				}
+			}
+			else {
+				if (leaf->left) {
+					leaf = leaf->left;
+				}
+				else {
+					break;
+				}
+			}
+		}
+		if (strcmp(nn->name, leaf->name) == 0) {
+			leaf->num++;
+			free(nn);
+		}
+		else if (strcmp(nn->name, leaf->name) > 0) {
+			leaf->right = nn;
+		}
+		else {
+			leaf->left = nn;
+		}
+	}
+
+	return t;
+}
+
+void print(tree t)
+{
+	if (t->left)print(t->left);
+	printf("%s %.4f%%\n", t->name, t->num * 1.0 / n * 100.0);
+	if (t->right)print(t->right);
+}
