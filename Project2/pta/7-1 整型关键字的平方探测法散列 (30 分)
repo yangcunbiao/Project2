@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <string>
+#include <iostream>
+#include <queue>
+#include <vector>
+#include <map>
+#include <algorithm>
+#include <iterator>
+using namespace std;
+bool is(int n)
+{
+    if(n<2)return false;
+    if(n==2||n==3)return true;
+    else if(n%2==0)return false;
+    int i=3;
+    for(;i*i<=n;i=i+2){
+        if(n%i==0)return false;
+    }
+    return true;
+}
+//int h[1000000]={0};
+int main()
+{
+	int msize,n,*index,num,k,*h;
+    cin>>msize>>n;
+    if(is(msize)==false){
+        while(is(msize)==false)msize++;
+    }
+    h=(int *)malloc(sizeof(int)*msize);
+    index=(int*)malloc(sizeof(int)*msize);
+    for(int i=0;i<msize;i++){
+        h[i]=0;
+    }
+    for(int i=0;i<n;i++){
+        cin>>num;
+        k=num%msize;
+        if(h[k]==0){
+            h[k]=1;
+            index[i]=k;
+        }else{
+            int j=k+1,mm=1,cnt=0;
+            while(j!=k){
+                j=k+mm*mm;
+                j=j%msize;
+                mm++;
+                if(h[j]==0){
+                    h[j]=1;
+                    index[i]=j;
+                    break;
+                }
+                cnt++;
+            }
+            if(j==k)index[i]=-1;
+        }
+    }
+    for(int i=0;i<n;i++){
+        if(i)cout<<' ';
+        if(index[i]==-1)cout<<"-";
+        else cout<<index[i];
+    }
+
+	return 0;
+}
