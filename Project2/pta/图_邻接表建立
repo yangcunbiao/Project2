@@ -1,0 +1,23 @@
+LGraph ReadG()
+{
+	LGraph gra;
+	gra = new(GNode);
+	int n, m, a, b;
+	PtrToAdjVNode ne;
+	scanf("%d %d", &n, &m);
+	gra->Nv = n, gra->Ne = m;
+	for (int i = 0; i < gra->Ne; i++)
+	{
+		gra->G[i].FirstEdge = NULL;
+	}
+	for (int i = 0; i < m; i++)
+	{
+		scanf("%d %d", &a, &b);
+		ne = new(AdjVNode);
+		ne->Next = NULL;
+		ne->AdjV = b-1;
+		ne->Next = gra->G[a - 1].FirstEdge;
+		gra->G[a - 1].FirstEdge = ne;
+	}
+	return gra;
+}
